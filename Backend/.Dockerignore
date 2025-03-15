@@ -1,0 +1,26 @@
+# Ignorar los archivos de compilación de .NET
+bin/
+obj/
+
+# Ignorar los archivos de configuración de usuario de Visual Studio
+.vs/
+.vscode/
+.idea/
+
+# Ignorar los archivos de configuración del sistema
+.DS_Store
+
+# Ignorar archivos de caché de npm (si los tienes)
+node_modules/
+
+# Ignorar archivos de configuración específicos de JetBrains
+.idea/
+
+# Ignorar archivos sensibles (asegúrate de no dejar claves o contraseñas en el repositorio)
+appsettings.Development.json
+appsettings.Production.json
+secrets.json
+
+# Ignorar archivos de pruebas si no son necesarios
+*.test
+*.spec
