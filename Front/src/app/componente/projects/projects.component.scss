@@ -1,0 +1,282 @@
+/* Contenedor de las tarjetas */
+.container {
+  max-width: 95%;
+}
+
+/* Diseño de las tarjetas */
+.project-card {
+  background-color: #dfd2d0;
+  min-height: 500px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px; /* Espacio entre las tarjetas */
+}
+
+/* Diseño de la imagen */
+.image-container {
+  background-color: #fffdfc;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* Imagen dentro de la tarjeta */
+.card-img-top {
+  height: auto;
+  width: 150px;
+  object-fit: cover;
+  padding: 0;
+  object-position: center center;
+  background-color: #fffdfc;
+  border-radius: 8px 8px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.action-buttons .btn {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+}
+
+.action-buttons .btn i {
+  font-size: 1.8vw;
+}
+
+/* Botones sociales */
+.social-buttons {
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.social-buttons .btn {
+  border: none;
+}
+
+.social-buttons .btn i {
+  font-size: 2vw;
+  transition: all 0.3s ease-in-out;
+}
+
+.social-buttons .btn:hover i {
+  color: #007bff;
+}
+@media (max-width: 974px) {
+  .container {
+    max-width: 95%;
+  }
+
+  .project-card {
+    background-color: #dfd2d0;
+    min-height: 45vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .image-container {
+    background-color: #fffdfc;
+    min-height: 20vh;
+    padding: 2.1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img-top {
+    height: 24vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background-color: #fffdfc;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .action-buttons .btn {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .action-buttons .btn i {
+    font-size: 1.8vw;
+  }
+
+  .social-buttons {
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .social-buttons .btn {
+    border: none;
+  }
+
+  .social-buttons .btn i {
+    font-size: 2vw;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .social-buttons .btn:hover i {
+    color: #007bff;
+  }
+}
+
+@media (max-width: 375px) {
+  .social-buttons {
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .social-buttons .btn {
+    border: none;
+  }
+
+  .social-buttons .btn i {
+    font-size: 10vw;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .social-buttons .btn:hover i {
+    color: #007bff;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .action-buttons .btn {
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .action-buttons .btn i {
+    font-size: 7vw;
+  }
+
+  .image-container {
+    background-color: #fffdfc;
+    min-height: 10vh;
+    padding: 2.1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img-top {
+    height: 35vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background-color: #fffdfc;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    background-color: #dfd2d0;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .image-container {
+    background-color: #fffdfc;
+    min-height: 30vh;
+    padding: 2.1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img-top {
+    height: 35vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background-color: #fffdfc;
+  }
+
+  .social-buttons {
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .social-buttons .btn {
+    border: none;
+  }
+
+  .social-buttons .btn i {
+    font-size: 4vw;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .social-buttons .btn:hover i {
+    color: #007bff;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .action-buttons .btn {
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .action-buttons .btn i {
+    font-size: 4vw;
+  }
+}

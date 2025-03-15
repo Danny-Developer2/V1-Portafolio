@@ -1,0 +1,50 @@
+<div class="d-flex p-0">
+  <!-- Botón para ocultar/mostrar la barra lateral -->
+ 
+  
+  <!-- Sidebar (Menú Lateral) -->
+  <nav class="sidebar bg-white text-dark p-3" [class.hidden]="isSidebarHidden">
+    <a  class="s btn btn-outline-none" (click)="toggleSidebar()">
+      <i class="fas fa-bars" style="font-size: 1.5rem;"></i>
+    </a>
+    <ul class="nav flex-column">
+      @if(!isSidebarHidden){<h4>Dashboard</h4>}
+      <li class="nav-item">
+        <a class="nav-link text-dark" [routerLink]="['/dashboard/skills']">
+          <i class="fas fa-table"></i> <!-- Icono de la tabla -->
+          @if(!isSidebarHidden){ <span> Tabla Skills</span>}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" [routerLink]="['/dashboard/profile']">
+          <i class="fas fa-user"></i> <!-- Icono de usuario -->
+          @if(!isSidebarHidden){<span> Users</span>}
+          
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" [routerLink]="['/dashboard/settings']">
+          <i class="fas fa-cogs"></i> <!-- Icono de configuración -->
+          @if(!isSidebarHidden){ <span> Tabla Roles</span>}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" [routerLink]="['/dashboard/experiences']">
+          <i class="fas fa-chart-line"></i> <!-- Icono de experiencia -->
+          @if(!isSidebarHidden){<span> Tabla Experiencias</span>}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark" [routerLink]="['/dashboard/projects']">
+          <i class="fas fa-project-diagram"></i> <!-- Icono de proyectos -->
+          @if(!isSidebarHidden){<span> Tabla de Proyectos</span>}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Contenido Principal donde se renderizan las rutas -->
+  <div class="content p-0 flex-grow-1" style="overflow-y: auto; height: 100dvh;">
+    <router-outlet></router-outlet>  <!-- Aquí se mostrarán las vistas dinámicamente -->
+  </div>
+</div>

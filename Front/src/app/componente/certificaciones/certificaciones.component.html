@@ -1,0 +1,21 @@
+<div class="container my-5">
+    <h2 class="text-center mb-4">Certificaciones</h2>
+
+    <!-- Mostrar certificaciones en bloques de 4 -->
+    <div *ngFor="let chunk of chunkedCertificaciones">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let certificacion of chunk">
+                <div class="card shadow-sm card-custom">
+                    <img [src]="certificacion.imageUrl" class="card-img-top" alt="{{ certificacion.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ certificacion.name }}</h5>
+                        <p class="card-text">{{ certificacion.description }}</p>
+                        <p class="card-text">
+                            <a [href]="certificacion.achievementUrl" class="btn btn-primary" target="_blank">Ver más</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

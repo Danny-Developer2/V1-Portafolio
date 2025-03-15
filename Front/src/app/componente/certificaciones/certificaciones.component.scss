@@ -1,0 +1,37 @@
+/* Estilos personalizados para las cards */
+.card-custom {
+    height: 450px; /* Establece una altura fija */
+    width: 100%; /* Asegura que la card ocupe todo el ancho disponible */
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos dentro de la card estén organizados verticalmente */
+}
+
+.card-custom .card-body {
+    flex-grow: 1; /* Hace que el contenido de la card ocupe el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacia el contenido dentro de la card */
+}
+
+.card-custom img {
+    object-fit: cover; /* Mantiene la imagen dentro de su contenedor sin deformarse */
+    height: 420px; /* Fija la altura de la imagen */
+    width: 300px;;
+    padding: 30px;
+    background-color: #f5f5f5; /* Fondo gris claro */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse por encima */
+    transition: transform 0.3s ease; /* Efecto de animación para el cambio de color al pasar el mouse */
+    transform: scale(1); /* Establece la escala inicial del texto */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse por encima */
+    
+    
+}
+
+/* Asegura que el texto en la card no se desborde */
+.card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    // -webkit-line-clamp: 3; /* Limita el número de líneas de texto */
+    -webkit-box-orient: vertical;
+}
