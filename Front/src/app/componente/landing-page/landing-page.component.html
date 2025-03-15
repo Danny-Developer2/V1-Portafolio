@@ -3,24 +3,31 @@
     <div class="row align-items-center flex-column flex-lg-row">
       <!-- Imagen arriba en móviles y tablets -->
       <div class="col-12 col-lg-5 text-center">
-        <img [src]="'images/photo.png'" alt="Foto Juan" class="img-fluid custom-img" />
+        <img
+          [src]="'images/photo.png'"
+          alt="Foto Juan"
+          class="img-fluid custom-img"
+        />
       </div>
-  
+
       <!-- Texto abajo en móviles y tablets -->
       <div class="col-12 col-lg-6 text-center p-0">
         <h1 class="custom-title">Soy Juan Luevano Ruiz</h1>
         <p class="custom-text">Desarrollador Backend .Net</p>
-        <button (click)="downloadCV()" class="btn btn-secondary custom-button">Descargar CV</button>
+        <button (click)="downloadCV()" class="btn btn-secondary custom-button">
+          Descargar CV
+        </button>
       </div>
     </div>
   </section>
-  
-  
+
   <section class="container mt-5">
     <div class="row align-items-center">
       <!-- Título y descripción -->
-      <h2 class="text-center text-dark mb-4">Desarrollador Backend y Front End</h2>
-  
+      <h2 class="text-center text-dark mb-4">
+        Desarrollador Backend y Front End
+      </h2>
+
       <!-- Imagen mejorada con clases de Bootstrap y personalización con CSS -->
       <div class="col-12">
         <div class="img-container">
@@ -33,35 +40,38 @@
       </div>
     </div>
   </section>
-  
-  
- <app-projects></app-projects>
-  
-  
-  
-  
- <section class="container my-5">
-  <div class="row align-items-center">
-    <!-- Imagen a la izquierda (se oculta en pantallas pequeñas y se muestra en pantallas grandes) -->
-    <div class="col-lg-6 text-center mb-4 mb-lg-0">
-      <img [src]="'images/profile.png'" alt="Foto de Juan Luevano" class="img-fluid rounded-circle profile-img d-none d-lg-block" style="max-width: 600px;">
+
+  <app-projects></app-projects>
+
+  <section class="container my-5">
+    <div class="row align-items-center">
+      <!-- Imagen a la izquierda (se oculta en pantallas pequeñas y se muestra en pantallas grandes) -->
+      <div class="col-lg-6 text-center mb-4 mb-lg-0">
+        <img
+          [src]="'images/profile.png'"
+          alt="Foto de Juan Luevano"
+          class="img-fluid rounded-circle profile-img d-none d-lg-block"
+          style="max-width: 600px"
+        />
+      </div>
+
+      <!-- Texto a la derecha -->
+      <div class="col-lg-6">
+        <h2 class="mb-3">Sobre mí</h2>
+        <p class="lead">
+          Soy Juan Luevano Ruiz, un apasionado desarrollador Backend
+          especializado en .NET. Me encanta crear soluciones eficientes y
+          escalables para resolver problemas del mundo real. Con varios años de
+          experiencia, disfruto trabajar con tecnologías modernas y aprender
+          constantemente.
+        </p>
+        <a
+          [href]="['/auth/certificados']"
+          routerLinkActive="router-link-active"
+          class="btn btn-primary btn-lg"
+          >Certificaciones</a
+        >
+      </div>
     </div>
-
-    <!-- Texto a la derecha -->
-    <div class="col-lg-6">
-      <h2 class="mb-3">Sobre mí</h2>
-      <p class="lead">
-        Soy Juan Luevano Ruiz, un apasionado desarrollador Backend especializado en .NET.  
-        Me encanta crear soluciones eficientes y escalables para resolver problemas del mundo real.  
-        Con varios años de experiencia, disfruto trabajar con tecnologías modernas y aprender constantemente.
-      </p>
-      <a [href]="['/auth/certificados']" routerLinkActive="router-link-active"  class="btn btn-primary btn-lg">Certificaciones</a>
-    </div>
-  </div>
-</section>
-
-
-  
+  </section>
 </div>
-
-

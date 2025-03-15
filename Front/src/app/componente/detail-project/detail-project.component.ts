@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-detail-project',
+  standalone: true,   // El componente se puede utilizar sin Angular CLI
   imports: [
     CommonModule
   ],
@@ -31,28 +32,55 @@ export class DetailProjectComponent {
   
   
   ngOnInit(id: number) {
-    this.route.paramMap.subscribe(params => {
-      const idParam = params.get('id'); // Obtener el id de la URL
-      if (idParam) {
-        this.id = +idParam; // Convertir a número
-        this.getProjectDetail(this.id);
-      }
-    });
+    if(id === null){
+      this.toastr.error('Error al obtener el proyecto', '',{
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+      });
+      return;  // Salir del método si no hay id
+    }
+
+    try{
+
+      this.route.paramMap.subscribe(params => {
+        const idParam = params.get('id'); // Obtener el id de la URL
+        if (idParam) {
+          this.id = +idParam; // Convertir a número
+          this.getProjectDetail(this.id);
+        }
+      });
+    }
+    catch(error){
+      console.error('Error al obtener los proyectos:', error);
+    }
   }
 
     // Llamar al servicio para obtener los proyectos
   
     getProjectDetail(id: number) {
-      this.projectService.getProjectById(id).subscribe(
-        (data: Project) => {
-          // Aquí asumimos que la API retorna un solo proyecto, no un arreglo
-          this.project =data; // Si no existe el proyecto, se asigna null
-          // console.log(this.project.imgUrl);
-        },
-        (error) => {
-          console.error('Error al obtener los detalles del proyecto:', error);
-        }
-      );
+      if(id === null){
+        this.toastr.error('Error al obtener el proyecto', '',{
+          timeOut: 5000,
+          positionClass: 'toast-top-right',
+        });
+        return;  // Salir del método si no hay id
+      }
+      try {
+
+        this.projectService.getProjectById(id).subscribe(
+          (data: Project) => {
+            // Aquí asumimos que la API retorna un solo proyecto, no un arreglo
+            this.project =data; // Si no existe el proyecto, se asigna null
+            // console.log(this.project.imgUrl);
+          },
+          (error) => {
+            console.error('Error al obtener los detalles del proyecto:', error);
+          }
+        );
+      }
+      catch (error) {
+        console.error('Error al obtener los detalles del proyecto:', error);
+      }
     }
   //  aqui tienes que poner toda la logica despues de la eliminacion
     deleteProject(id: number) {
@@ -82,16 +110,32 @@ export class DetailProjectComponent {
     }
     
     confirmDelete(id: number): void {
-      const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este proyecto?');
-      
-      if (confirmDelete) {
-        this.deleteProject(id); 
+      if(id === null ) {
+        this.toastr.error('Error al confirmar la eliminación', '',{
+          timeOut: 5000,
+          positionClass: 'toast-top-right',
+        });
+        return;  // Salir del método si no hay id  // No es necesario, ya que el método deleteProject retorna null si el proyecto no se pudo eliminar
+      }
+      try{
+
+        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este proyecto?');
+        
+        if (confirmDelete) {
+          this.deleteProject(id); 
+        }
+      }
+      catch(error){
+        console.error('Error al confirmar la eliminación:', error);
       }
     }
 
 
     getToken(){
       const token = sessionStorage.getItem('role');
+      if(!token) {
+        return '';  // No hay token, retornar vacío
+      }
       return token;
     }
   

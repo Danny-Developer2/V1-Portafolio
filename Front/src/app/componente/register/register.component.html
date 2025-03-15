@@ -1,62 +1,76 @@
-<div class="container" style="display: grid; grid-template-rows: auto 1fr auto; min-height: 100dvh;">
-    <form [formGroup]="registerUserFrom" (ngSubmit)="onSbmit()" class="container mt-4 p-4 border rounded shadow-sm bg-light">
-        <h2 class="text-center mb-4">Registro de Usuario</h2>
-      
-        <div class="mb-3">
-          <label for="name" class="form-label">Nombre:</label>
-          <input id="name" type="text" class="form-control" formControlName="name" />
-          @if(registerUserFrom.get('name')?.invalid && registerUserFrom.get('name')?.touched){
-            <div class="text-danger small" >
-                @if(registerUserFrom.get('name')?.errors?.['required']){ <small >El nombre es obligatorio.</small>}
-              </div>
-            
-          }
-        </div>
-         
-      
-        <div class="mb-3">
-          <label for="email" class="form-label">Correo Electrónico:</label>
-          <input id="email" type="email" class="form-control" formControlName="email" />
-          <!-- @if(registerUserFrom.get('email')?.errors?.['required']){<small >Debe ser un correo válido.</small>} -->
-          @if(registerUserFrom.get('email')?.invalid && registerUserFrom.get('email')?.touched){
-            <div class="text-danger small">
-                <small>El correo electrónico es obligatorio.</small>
-              </div>
-          }
-         
-        </div>
-      
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña:</label>
-          <input id="password" type="password" class="form-control" formControlName="passwordHash" />
-          @if(registerUserFrom.get('passwordHash')?.invalid && registerUserFrom.get('passwordHash')?.touched){
-            <div class="text-danger small">
-                @if(registerUserFrom.get('passwordHash')?.errors?.['required']){<small >La contraseña es obligatoria.</small>}
-                @if(registerUserFrom.get('passwordHash')?.errors?.['minlength']){<small >Debe tener al menos 8 caracteres.</small>}
-              </div>
-          }
-          
-        </div>
+<div
+  class="container"
+  style="display: grid; grid-template-rows: auto 1fr auto; min-height: 100dvh"
+>
+  <form
+    [formGroup]="registerUserFrom"
+    (ngSubmit)="onSbmit()"
+    class="container mt-4 p-4 border rounded shadow-sm bg-light"
+  >
+    <h2 class="text-center mb-4">Registro de Usuario</h2>
 
-       
-        <!-- <div class="mb-3">
-          <label for="role" class="form-label">Rol:</label>
-          <select id="role" class="form-control" formControlName="role">
-            <option value="">Seleccione un rol</option>
-            <option [value]="0">User</option>
-            <option [value]="1">Admin</option>
-          </select>
-        
-          @if(registerUserFrom.get('role')?.invalid && registerUserFrom.get('role')?.touched){
-            <div class="text-danger small">
-              <small>El rol es obligatorio.</small>
-            </div>
-          } 
-        </div> -->
-        <button type="submit" class="btn btn-primary w-100" [disabled]="registerUserFrom.invalid">
-          Registrar
-        </button>
-      </form>
-    
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre:</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        formControlName="name"
+      />
+      @if(registerUserFrom.get('name')?.invalid &&
+      registerUserFrom.get('name')?.touched){
+      <div class="text-danger small">
+        @if(registerUserFrom.get('name')?.errors?.['required']){
+        <small>El nombre es obligatorio.</small>}
+      </div>
+
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo Electrónico:</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        formControlName="email"
+      />
+      <!-- @if(registerUserFrom.get('email')?.errors?.['required']){<small >Debe ser un correo válido.</small>} -->
+      @if(registerUserFrom.get('email')?.invalid &&
+      registerUserFrom.get('email')?.touched){
+      <div class="text-danger small">
+        <small>El correo electrónico es obligatorio.</small>
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña:</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        formControlName="passwordHash"
+      />
+      @if(registerUserFrom.get('passwordHash')?.invalid &&
+      registerUserFrom.get('passwordHash')?.touched){
+      <div class="text-danger small">
+        @if(registerUserFrom.get('passwordHash')?.errors?.['required']){<small
+          >La contraseña es obligatoria.</small
+        >}
+        @if(registerUserFrom.get('passwordHash')?.errors?.['minlength']){<small
+          >Debe tener al menos 8 caracteres.</small
+        >}
+      </div>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary w-100"
+      [disabled]="registerUserFrom.invalid"
+    >
+      Registrar
+    </button>
+  </form>
 </div>
-

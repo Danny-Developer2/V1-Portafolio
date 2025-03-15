@@ -5,22 +5,24 @@ import { GetSkillsService } from '../../services/get-skills.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink,RouterModule],
+  standalone: true,  // El componente se puede utilizar sin Angular CLI
+  imports: [RouterLink, RouterModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  
   skills: any;
 
-
-  constructor(public getSkills:GetSkillsService){}
-
+  constructor(public getSkills: GetSkillsService) {}
 
   ngOnInit(): void {
-    this.getSkills.getSkills().subscribe((skills) => {
-      this.skills = skills;
-    });
+    try {
+      this.getSkills.getSkills().subscribe((skills) => {
+        this.skills = skills;
+      });
+    } catch (error) {
+      console.error('Error obteniendo skills:', error);
+    }
   }
 
   isSidebarHidden = true;
@@ -28,5 +30,4 @@ export class DashboardComponent {
   toggleSidebar() {
     this.isSidebarHidden = !this.isSidebarHidden;
   }
-
 }

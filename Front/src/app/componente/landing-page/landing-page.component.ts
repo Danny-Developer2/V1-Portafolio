@@ -1,28 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FooterComponent } from '../footer/footer.component';
 import { Project, ProjectsService } from '../../services/projects.service';
-import { jwtDecode } from 'jwt-decode';
 import { LoginService } from '../../services/login.service';
 import { Router, RouterLink } from '@angular/router';
 import { RoleUser } from '../../services/role-user.service';
-import { ImageValidateUrlService } from '../../services/image-validate-url.service';
 import { ProjectsComponent } from '../projects/projects.component';
 import { CommonModule } from '@angular/common';
-// import { SetExpToken } from '../../services/set-token.service';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [ProjectsComponent, ProjectsComponent,CommonModule],
+  standalone: true, // El componente se puede utilizar sin Angular CLI
+  imports: [ProjectsComponent, ProjectsComponent, CommonModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })
 export class LandingPageComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
-    private loginService: LoginService,
-    private router: Router,
-    private roleUser: RoleUser,
-    // private setToken:SetExpToken
+    private loginService: LoginService
   ) {}
   projects: Project[] = [];
   displayedProjects: Project[] = []; // Proyectos visibles en la página actual
@@ -32,33 +26,27 @@ export class LandingPageComponent implements OnInit {
   token: string | null = null;
   role: string = '';
 
-  // ngOnInit(): void {
-  //   this.projectsService.getProjects().subscribe({
-  //     next: (projects: Project[]) => {
-  //       this.projects = projects;  // Almacena los proyectos en el componente para mostrarlos en la vista
-  //       console.log('Proyectos obtenidos:', projects);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error al obtener los proyectos:', error);
-  //     }
-  //   });
-  // }
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+      // Llamar al servicio para obtener los proyectos
+      this.projectsService.getProjects().subscribe((data: Project[]) => {
+        // const token = localStorage.getItem('token');
 
-  ngOnInit():void {
-    // Llamar al servicio para obtener los proyectos
-    this.projectsService.getProjects().subscribe((data: Project[]) => {
-      const token = localStorage.getItem('token');
-      this.projects = data;
-      // this.setToken.setExpToken(token!)
-      // this.role = this.roleUser.readTokenData(token!);
-     
-    
-    
-      this.updateDisplayedProjects();
-    });
-    //TODO Se encarga de validar que el token sea valido si no lo es cierra la session
-    this.loginService.checkSession() && this.loginService.logaut(this.token!);
-    // console.log(this.loginService.checkSession());
+        this.projects = data;
+        // this.setToken.setExpToken(token!)
+        // this.role = this.roleUser.readTokenData(token!);
+
+        this.updateDisplayedProjects();
+      });
+      //TODO Se encarga de validar que el token sea valido si no lo es cierra la session
+      this.loginService.checkSession() && this.loginService.logaut(this.token!);
+    }
+    try {
+    } catch (error) {
+      console.error('Error al obtener los proyectos:', error);
+    }
   }
 
   // Función para actualizar la lista de proyectos según la página actual

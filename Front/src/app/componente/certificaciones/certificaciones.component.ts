@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-certificaciones',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './certificaciones.component.html',
   styleUrls: ['./certificaciones.component.scss'],
@@ -15,13 +16,15 @@ export class CertificacionesComponent implements OnInit {
   constructor(private certificacionesService: GetCertificacionesService) {}
 
   ngOnInit() {
-    this.certificacionesService.getCertificaciones().subscribe((data) => {
-      console.log(data); // Verifica la respuesta completa en la consola
-
-      // Accede a los valores dentro de $values
-      this.certificaciones = data.$values; // Aquí accedemos a la propiedad $values
-      this.chunkedCertificaciones = this.chunkArray(this.certificaciones, 4);
-    });
+    try {
+      this.certificacionesService.getCertificaciones().subscribe((data) => {
+        // Accede a los valores dentro de $values
+        this.certificaciones = data.$values; // Aquí accedemos a la propiedad $values
+        this.chunkedCertificaciones = this.chunkArray(this.certificaciones, 4);
+      });
+    } catch (error) {
+      console.error('Error obteniendo certificaciones:', error);
+    }
   }
 
   // Función para dividir el array en bloques de tamaño "size"
