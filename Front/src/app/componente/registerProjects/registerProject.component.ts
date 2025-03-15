@@ -48,61 +48,46 @@ export class RegisterProjectComponent {
 
 // Método onSubmit
 onSubmit() {
-  // Primero verificar si el formulario es válido
   if (this.registerForm.invalid) {
     this.toastr.error('Por favor, complete todos los campos correctamente.');
-    return;  // Detener la ejecución si el formulario es inválido
+    return;
   }
 
-  // Obtener el token desde el localStorage
-  this.token = localStorage.getItem('data');
-  if (!this.token) {
-    this.toastr.error('No se encontró un token de autenticación');
-    return;  // Detener la ejecución si no se encontró el token
-  }
+  // Construcción del objeto formData
+  const formData = {
+    id: Math.floor(Math.random() * 1000), // ID temporal (según sea necesario)
+    ...this.registerForm.value,
+    skillIds: this.skillsSelected,
+    experienceIds: this.convertToArray(this.registerForm.value.experienceIds),
+    userIds: this.convertToArray(this.registerForm.value.userIds)
+  };
 
-  // Verificar la validez del token antes de enviar la solicitud
-  this.vT.verifyToken(this.token!).subscribe(
-    (response) => {  // ✅ Manejo de la respuesta exitosa
-    
-  
-      // ✅ Si el token es válido, proceder con la creación del proyecto
-      const formData = {
-        id: Math.floor(Math.random() * 1000), // Generar un ID temporal
-        ...this.registerForm.value,
-        skillIds: this.skillsSelected,
-        experienceIds: this.convertToArray(this.registerForm.value.experienceIds),
-        userIds: this.convertToArray(this.registerForm.value.userIds)
-      };
-  
-      this.registerService.registerProject(formData, this.token!).subscribe(
-        (response) => {  // ✅ Manejo de éxito en la creación del proyecto
-          console.log('Proyecto registrado:', response);
-          this.toastr.success('Proyecto registrado con éxito!');
-          this.registerForm.reset();
-          this.skillsSelected = [];  // Resetear los seleccionados de habilidades
-        },
-        (error) => {  // ✅ Manejo de error en la creación del proyecto
-          console.error('Error al registrar el proyecto:', error);
-          this.toastr.error('Hubo un error al registrar el proyecto.');
-        }
-      );
+  // Enviar la solicitud para registrar el proyecto
+  this.registerService.registerProject(formData).subscribe({
+    next: (response) => {
+      console.log('Proyecto registrado:', response);
+      this.toastr.success('Proyecto registrado con éxito', '', {
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        closeButton: true,
+        progressBar: true,
+        tapToDismiss: true,
+      });
+
+      // Resetear el formulario y las habilidades seleccionadas
+      this.registerForm.reset();
+      this.skillsSelected = [];
+
+      // Redirigir después de 3 segundos
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 3000);
     },
-    (error) => {  // ✅ Manejo de errores en la verificación del token
-      console.error('Error verificando el token:', error);
-      if (error.status === 401) {
-        localStorage.removeItem('token');
-        this.toastr.error('Token expirado. Vuelve a iniciar sesión.', '', {
-          timeOut: 4000,
-          positionClass: 'toast-top-right',
-        });
-        this.router.navigate(['/auth/login']);
-      } else {
-        this.toastr.error('Error al verificar el token.');
-      }
+    error: (error) => {
+      console.error('Error al registrar el proyecto:', error);
+      this.toastr.error('Hubo un error al registrar el proyecto.');
     }
-  );
-  
+  });
 }
 
 

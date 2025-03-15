@@ -20,6 +20,8 @@ import { ToastrService } from 'ngx-toastr';
 export class AppComponent {
   title = 'Front';
 
+  isMenuOpen = false;
+
   token: string | null = null // Obtiene el token actual
 
   role: string  | null = null;
@@ -64,6 +66,11 @@ export class AppComponent {
       console.log('Respuesta de la prueba:', data);
     });
   }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+  
 
 
   

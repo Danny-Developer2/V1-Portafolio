@@ -10,7 +10,7 @@ namespace API.DTO
 
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100, ErrorMessage = "El nombre no puede exceder los 100 caracteres.")]
-        public required string Name { get; set; }
+        public  string Name { get; set; } = string.Empty;
 
         [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido.")]
         [StringLength(255, ErrorMessage = "El correo electrónico no puede exceder los 255 caracteres.")]
@@ -24,15 +24,15 @@ namespace API.DTO
 
         public string? Token { get; set; } 
 
-        public string? Data{ get; set; }
+        // public string? Data{ get; set; }
 
         // IDs de habilidades relacionadas
-        public List<int>? SkillIds { get; set; }
-        public List<ExperienceDTO> Experiences { get; set; }  = new List<ExperienceDTO>();
+        // public List<int>? SkillIds { get; set; }
+        // public List<ExperienceDTO> Experiences { get; set; }  = new List<ExperienceDTO>();
 
-        public List<SkillsDTO> Skills { get; set; }  = new List<SkillsDTO>();
+        // public List<SkillsDTO> Skills { get; set; }  = new List<SkillsDTO>();
 
-         public List<ProyectDTO> Projects { get; set; }  = new List<ProyectDTO>();
+        //  public List<ProyectDTO> Projects { get; set; }  = new List<ProyectDTO>();
         
     }
 }

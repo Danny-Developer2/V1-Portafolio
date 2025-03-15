@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API.Interfaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,13 @@ builder.Services.AddCors(options =>
                   .AllowCredentials(); // Si usas autenticación con cookies o tokens
         });
 });
+
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 
 // Repositorios
 builder.Services.AddScoped<ExperienceRepository, ExperienceRepository>();

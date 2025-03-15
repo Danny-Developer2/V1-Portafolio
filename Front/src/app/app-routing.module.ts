@@ -5,14 +5,20 @@ import { RegisterProjectComponent } from './componente/registerProjects/register
 import { AuthGuard } from './componente/auth/auth.component';
 import { DetailProjectComponent } from './componente/detail-project/detail-project.component';
 import { EditarProjectComponent } from './componente/editar-project/editar-project.component';
+import { Error404Component } from './componente/error-404/error-404.component';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+
 
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'register-projects', component: RegisterProjectComponent,
     canActivate: [AuthGuard]  // Protege la ruta
-    
   },
+  { path: '404', component: Error404Component },
+  { path: 'test-error', component: TestErrorsComponent},
+  { path: 'server-error', component: ServerErrorComponent }, 
   {
     path: 'auth',
     loadChildren: () =>
@@ -36,6 +42,7 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/detail/detail.module').then(m => m.DetailModule),
     canActivate: [AuthGuard]  // Protege la ruta
   },
+  { path: '**', redirectTo: '404' }, // Esta debe ir al final
  
 ];
 

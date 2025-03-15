@@ -1,20 +1,21 @@
 <div>
   <section class="container mt-5">
-    <div class="row align-items-center">
-      <!-- Texto a la izquierda -->
-      <div class="col-lg-6" style="font-family: 'Roboto', sans-serif; text-align: center; padding: 50px;  border-radius: 10px;">
-        <h1 style="color: #333; font-size: 3rem; font-weight: bold;">Soy Juan Luevano Ruiz</h1>
-        <p style="color: #555; font-size: 1.2rem; font-weight: 500;">Desarrollador Backend .Net</p>
-        <button (click)="downloadCV()" class="btn btn-secondary" style="font-size: 1.1rem; padding: 10px 20px; width: 300px; background-color: D9D9D9;">Descargar CV</button>
+    <div class="row align-items-center flex-column flex-lg-row">
+      <!-- Imagen arriba en móviles y tablets -->
+      <div class="col-12 col-lg-5 text-center">
+        <img [src]="'images/photo.png'" alt="Foto Juan" class="img-fluid custom-img" />
       </div>
-      
   
-      <!-- Imagen a la derecha -->
-      <div class="col-lg-5 text-center margin-left: 40px;">
-        <img [src]="'images/photo.png'" alt="Foto Juan" class="img-fluid" />
+      <!-- Texto abajo en móviles y tablets -->
+      <div class="col-12 col-lg-6 text-center p-0">
+        <h1 class="custom-title">Soy Juan Luevano Ruiz</h1>
+        <p class="custom-text">Desarrollador Backend .Net</p>
+        <button (click)="downloadCV()" class="btn btn-secondary custom-button">Descargar CV</button>
       </div>
     </div>
   </section>
+  
+  
   <section class="container mt-5">
     <div class="row align-items-center">
       <!-- Título y descripción -->

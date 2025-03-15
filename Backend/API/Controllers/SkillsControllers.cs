@@ -5,7 +5,11 @@ using API.Entities;
 using API.Repositories;
 using API.DTOs;
 using API.Errors;
-using Microsoft.AspNetCore.Authorization;  // Asegúrate de incluir el espacio de nombres para ApiException
+using Microsoft.AspNetCore.Authorization;
+using SQLitePCL;
+using API.Data;
+using Microsoft.EntityFrameworkCore;
+using API.DTO;  // Asegúrate de incluir el espacio de nombres para ApiException
 
 namespace API.Controllers
 {   [Authorize] 
@@ -14,21 +18,42 @@ namespace API.Controllers
     public class SkillsController : ControllerBase
     {
         private readonly SkillRepository _skillRepository;
+
+        private readonly DataContext _context;
         
 
-        public SkillsController(SkillRepository skillRepository)
+        public SkillsController(SkillRepository skillRepository , DataContext context)
         {
             _skillRepository = skillRepository;
+
+            _context = context;
         }
 
         // Obtener todas las habilidades
         // [Authorize(Roles = "User,Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppSkill>>> GetSkills()
+        public async Task<ActionResult<IEnumerable<SkillsDTO>>> GetSkills()
         {
             try
             {
-                var skills = await _skillRepository.GetSkillsAsync();
+                var skills = await _context.Skills.Select(
+                    s => new SkillsDTO
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
+                        IconUrl = s.IconUrl,
+                        Percentage = s.Percentage,
+
+                        Users = s.UserProyects!.Any() ? s.UserProyects!.Select(up => new UserDTO
+                    {
+                        Id = up.User!.Id,
+                        // Name= null,
+                        // Email = null
+                    }).ToList() : new List<UserDTO>()
+                    }
+                ).ToListAsync();
+
                 return Ok(skills);
             }
             catch (Exception ex)
@@ -76,13 +101,38 @@ namespace API.Controllers
             Console.WriteLine($"{id}");
             try
             {
-                var skill = await _skillRepository.GetSkillByIdAsync(id);
-                if (skill == null)
+                // var skill = await _skillRepository.GetSkillByIdAsync(id);
+               
+
+                var skills = await _context.Skills
+                .Where(s => s.Id == id)
+                .Select(
+                    s => new SkillsDTO
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
+                        IconUrl = s.IconUrl,
+                        Percentage = s.Percentage,
+
+                        Users = s.UserProyects!.Any() ? s.UserProyects!.Select(up => new UserDTO
+                    {
+                        Id = up.User!.Id,
+                        // Name= null,
+                        // Email = null
+                    }).ToList() : new List<UserDTO>()
+                    }
+                ).ToListAsync();
+
+
+                 if (skills == null)
                 {
                     throw new ApiException(404, $"La habilidad con ID {id} no existe."); // Lanza ApiException si no se encuentra
                     
                 }
-                return Ok(skill);
+
+
+                return Ok(skills);
             }
             catch (ApiException ex)
             {

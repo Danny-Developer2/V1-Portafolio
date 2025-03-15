@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTO;
 using API.Entities;
 
 namespace API.DTOs
@@ -15,7 +16,7 @@ namespace API.DTOs
         [Required(ErrorMessage ="EL nombre de la habilidad es requerido ")]
         [StringLength(100, ErrorMessage ="El nombre de la habilidad no puede exceder los 100 caracteres")]
         [MinLength(3, ErrorMessage ="El nombre de la habilidad debe tener al menos 3 caracteres")]
-        public   required string SkillName { get; set; }
+        
         public required string Name { get; set; }
 
         [Required(ErrorMessage ="La porcentaje de la habilidad es requerido ")]
@@ -34,6 +35,8 @@ namespace API.DTOs
     
 
         public required string Description { get; set; }
+
+        public List<UserDTO> Users { get; set; } = new List<UserDTO>();
 
         
     }

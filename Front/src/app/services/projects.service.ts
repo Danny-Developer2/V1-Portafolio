@@ -54,11 +54,11 @@ export class ProjectsService {
 
   getProjects(): Observable<Project[]> {
     return this.http
-      .get<{ $values: Project[] }>(this.baseUrl, {
+      .get<Project[]>(this.baseUrl, {
         withCredentials: true, // Asegúrate de que las cookies se envíen con la solicitud
       })
       .pipe(
-        map((response) => response?.$values || []), // Mapea la respuesta para extraer los proyectos
+        map((response) => response || []), // Mapea la respuesta para extraer los proyectos
         tap((data) => (this.projects = data)) // Guarda los proyectos en la variable `projects`
       );
   }

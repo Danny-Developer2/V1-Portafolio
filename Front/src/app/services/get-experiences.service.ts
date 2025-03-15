@@ -29,9 +29,9 @@ export class GetExperiencesService {
 
   getExperiences(): Observable<Experiences[]> {
     return this.http
-      .get<{ $values: Experiences[] }>(this.baseUrl, { withCredentials: true })
+      .get<Experiences[]>(this.baseUrl, { withCredentials: true })
       .pipe(
-        map((response) => response?.$values || []),
+        map((response) => response || []),
         tap((data) => (this.Experiences = data))
       );
   }

@@ -46,17 +46,17 @@ namespace API.DTOs
         public required string ImgUrl { get; set; }
 
         // IDs de habilidades asociadas al proyecto
-        public List<int>? SkillIds { get; set; }
+        // public List<int>? SkillIds { get; set; }
 
-        public List<int>? ExperienceIds { get; set; }
+        // public List<int>? ExperienceIds { get; set; }
 
 
         public List<SkillsDTO> Skills { get; set; } = new List<SkillsDTO>();
 
         // ID del usuario dueño del proyecto
-        public int UserId { get; internal set; }
+        // public int UserId { get; internal set; }
 
-        public AppUser? User { get; set; }
+        // public AppUser? User { get; set; }
 
         public List<AppExperience> Experiences { get; set; } = new List<AppExperience>();
 
@@ -64,7 +64,7 @@ namespace API.DTOs
         public List<ExperienceDTO> Experience { get; set; } = new List<ExperienceDTO>();
 
     
-        public List<int>? UserIds { get; set; }  // IDs de usuarios
+        // public List<int>? UserIds { get; set; }  // IDs de usuarios
 
         public List<UserDTO> Users { get; set; } = new List<UserDTO>();
 

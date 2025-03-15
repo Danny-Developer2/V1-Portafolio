@@ -252,10 +252,15 @@ namespace API.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("AppSkillId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("AppSkillId");
 
                     b.HasIndex("ProjectId");
 
@@ -351,6 +356,10 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.UserProyect", b =>
                 {
+                    b.HasOne("API.Entities.AppSkill", null)
+                        .WithMany("UserProyects")
+                        .HasForeignKey("AppSkillId");
+
                     b.HasOne("API.Entities.AppProyect", "Project")
                         .WithMany("UserProyects")
                         .HasForeignKey("ProjectId")
@@ -420,6 +429,8 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.AppSkill", b =>
                 {
                     b.Navigation("ProyectSkills");
+
+                    b.Navigation("UserProyects");
 
                     b.Navigation("UserSkills");
                 });

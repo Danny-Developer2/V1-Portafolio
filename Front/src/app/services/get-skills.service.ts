@@ -12,14 +12,14 @@ export interface Skills {
   iconUrl: string;
   description: string;
   users: { $values: User[] };
-  userSkills: any;  // Puedes definir una interfaz si conoces su estructura
-  proyectSkills: any;  // Puedes definir una interfaz si conoces su estructura
+  // userSkills: any;  // Puedes definir una interfaz si conoces su estructura
+  // proyectSkills: any;  // Puedes definir una interfaz si conoces su estructura
 }
 
 export interface User {
   id: number;
-  name: string;
-  email: string;
+  // name: string;
+  // email: string;
 }
 
 @Injectable({
@@ -37,18 +37,12 @@ export class GetSkillsService {
   constructor() { }
 
 
-   getSkills(): Observable<Skills[]> {
-      
+  getSkills(): Observable<Skills[]> {
+    return this.http.get<Skills[]>(this.baseUrl, { withCredentials: true }).pipe(
+      tap((data) => this.skills = data)
+    );
+  }
   
-     
-      
-  
-      return this.http.get<{$values:Skills[]}>(this.baseUrl, {  withCredentials:true }).pipe(
-        map(response => response?.$values || []),
-        tap((data) =>this.skills = data)
-        
-      )
-    }
 }
 
 

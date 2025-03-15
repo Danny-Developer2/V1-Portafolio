@@ -15,12 +15,7 @@ export class RegisterProjectsService {
   constructor(private http: HttpClient) { }
 
   // Método para registrar un nuevo proyecto
-  registerProject(project: any,token: string): Observable<any> {
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`, // Agregar el token en el encabezado
-      'Content-Type': 'application/json'
-    });
-    return this.http.post<any>(this.apiUrl, project,{headers});
+  registerProject(project: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, project,{withCredentials:true});
   }
 }

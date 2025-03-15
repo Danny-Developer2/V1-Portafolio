@@ -55,11 +55,12 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        this.toastr.error('Error en el login', error.error.message, {
-          timeOut: 5000,
-          positionClass: 'toast-top-right',
-        });
-        console.log(error);
+        // this.toastr.error('Error en el login', error.error.message, {
+        //   timeOut: 5000,
+        //   positionClass: 'toast-top-right',
+        // });
+        // console.log(error);
+        return error
       }
     });
   }

@@ -25,6 +25,8 @@ namespace API.Entities
         // Relación con ProyectSkills
         public ICollection<ProyectSkill>? ProyectSkills { get; set; }
 
+        public ICollection<UserProyect>? UserProyects { get; set; }
+
         
 
     }
