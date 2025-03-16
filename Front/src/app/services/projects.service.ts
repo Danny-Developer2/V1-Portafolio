@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 export interface updateProject {
   id: number;
@@ -19,8 +20,8 @@ export interface Project {
   technology: string;
   url: string;
   imgUrl: string;
-  skills: { $values: Skill[] };
-  experience: { $values: Experience[] };
+  skills:  Skill[];
+  experience: Experience[];
 }
 
 export interface Skill {
@@ -41,6 +42,15 @@ export interface Experience {
   description: string;
 }
 
+export interface PagedResult<T> {
+  items: T[];
+  totalItems: number;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -50,18 +60,23 @@ export class ProjectsService {
   private router: Router = new Router();
   projects: Project[] = [];
 
-  constructor() {}
+  constructor(private toastr:ToastrService) {}
 
-  getProjects(): Observable<Project[]> {
+  getProjects(page: number, size: number): Observable<PagedResult<Project>> {
+    const url = `${this.baseUrl}?pageNumber=${page}&pageSize=${size}`;
+  
     return this.http
-      .get<Project[]>(this.baseUrl, {
-        withCredentials: true, // Asegúrate de que las cookies se envíen con la solicitud
+      .get<PagedResult<Project>>(url, {
+        withCredentials: true, // Si necesitas enviar cookies (autenticación)
       })
       .pipe(
-        map((response) => response || []), // Mapea la respuesta para extraer los proyectos
-        tap((data) => (this.projects = data)) // Guarda los proyectos en la variable `projects`
+        map(response => response), // No necesitas `|| []` porque la respuesta no es array
+        tap(data => {
+          this.projects = data.items; // Solo guarda los items en `projects`
+        })
       );
   }
+  
   
 
   getProjectById(id: number): Observable<Project> {
@@ -99,32 +114,49 @@ export class ProjectsService {
   //   );
   // }
 
-  deleteProject(id: number): any {
-    if (id !== null && id !== undefined) {
-      this.http
-        .delete<string>(`${this.baseUrl}/${id}`, {
-          responseType: 'text' as 'json',
-          withCredentials: true,
-          
-        })
-        .subscribe(
-          (response) => {
-            console.log('Respuesta del servidor:', response); // Respuesta es el texto del backend
-            if (response) {
-              this.getProjects(); // Actualiza la lista de proyectos si la eliminación fue exitosa
-            }
-            return true;
-          },
-          (error) => {
-            console.error('Error al eliminar el proyecto:', error);
-            console.error('Estado del error:', error.status);
-            return false;
-          }
-        );
-    } else {
+  deleteProject(id: number): void {
+    // Validar que el ID del proyecto es válido
+    if (!id) {
       console.error('ID de proyecto no válido');
+      this.toastr.error('Error al eliminar el proyecto', '', {
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+      });
+      return; // Salir si el ID no es válido
     }
+  
+    // Realizar la solicitud para eliminar el proyecto
+    this.http
+      .delete<string>(`${this.baseUrl}/${id}`, {
+        responseType: 'text' as 'json',
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log('Respuesta del servidor:', response);
+  
+          // Mensaje de éxito
+          this.toastr.success('Proyecto eliminado con éxito', '', {
+            timeOut: 5000,
+            positionClass: 'toast-top-right',
+          });
+  
+          // Actualizar la lista de proyectos (puedes hacer esto de la forma que prefieras)
+          this.getProjects(1,3); // Si tienes un método que obtiene todos los proyectos
+        },
+        error: (error) => {
+          console.error('Error al eliminar el proyecto:', error);
+          console.error('Estado del error:', error.status);
+  
+          // Mostrar un mensaje de error
+          this.toastr.error('Error al eliminar el proyecto', '', {
+            timeOut: 5000,
+            positionClass: 'toast-top-right',
+          });
+        },
+      });
   }
+  
 
   updateProject(id: number, project: any): Observable<boolean> {
     return this.http

@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-landing-page',
-  standalone: true, // El componente se puede utilizar sin Angular CLI
-  imports: [ProjectsComponent, ProjectsComponent, CommonModule],
+  standalone: true,
+  imports: [ProjectsComponent, CommonModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })
@@ -18,11 +18,11 @@ export class LandingPageComponent implements OnInit {
     private projectsService: ProjectsService,
     private loginService: LoginService
   ) {}
+
   projects: Project[] = [];
-  displayedProjects: Project[] = []; // Proyectos visibles en la página actual
   currentPage: number = 1;
-  projectsPerPage: number = 4; // Número de proyectos por página
-  paginasTotal: number = 1; //
+  projectsPerPage: number = 3;
+  paginasTotal: number = 1;
   token: string | null = null;
   role: string = '';
 
@@ -30,45 +30,41 @@ export class LandingPageComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (!token) {
       return;
-      // Llamar al servicio para obtener los proyectos
-      this.projectsService.getProjects().subscribe((data: Project[]) => {
-        // const token = localStorage.getItem('token');
-
-        this.projects = data;
-        // this.setToken.setExpToken(token!)
-        // this.role = this.roleUser.readTokenData(token!);
-
-        this.updateDisplayedProjects();
-      });
-      //TODO Se encarga de validar que el token sea valido si no lo es cierra la session
-      this.loginService.checkSession() && this.loginService.logaut(this.token!);
     }
-    try {
-    } catch (error) {
-      console.error('Error al obtener los proyectos:', error);
+
+    // Validación de token y sesión
+    if (this.loginService.checkSession()) {
+      this.loginService.logaut(token);
+      return;
     }
+
+    this.loadProjects(this.currentPage, this.projectsPerPage);
   }
 
-  // Función para actualizar la lista de proyectos según la página actual
-  updateDisplayedProjects() {
-    const startIndex = (this.currentPage - 1) * this.projectsPerPage;
-    const endIndex = startIndex + this.projectsPerPage;
-    this.displayedProjects = this.projects.slice(startIndex, endIndex);
+  // Cargar proyectos con paginado del backend
+  loadProjects(page: number, size: number) {
+    this.projectsService.getProjects(page, size).subscribe({
+      next: (data) => {
+        this.projects = data.items;
+        this.paginasTotal = data.totalPages;
+        this.currentPage = data.pageNumber;
+      },
+      error: (error) => {
+        console.error('Error al obtener los proyectos:', error);
+      },
+    });
   }
 
-  // Función para cambiar de página
+  // Cambiar de página
   changePage(newPage: number) {
-    this.currentPage = newPage;
-    this.updateDisplayedProjects();
+    if (newPage >= 1 && newPage <= this.paginasTotal) {
+      this.loadProjects(newPage, this.projectsPerPage);
+    }
   }
 
-  // Obtener el total de páginas
-  // Obtener el total de páginas asegurando que siempre haya al menos 1 página
+  // Total de páginas (getter, opcional si usas paginasTotal directamente)
   get totalPages(): number {
-    return (this.paginasTotal = Math.max(
-      1,
-      Math.ceil(this.projects.length / this.projectsPerPage)
-    ));
+    return this.paginasTotal;
   }
 
   downloadCV() {

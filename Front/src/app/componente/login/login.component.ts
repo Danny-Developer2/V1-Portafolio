@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SetExpToken } from '../../services/set-token.service';
+import { ProjectsService } from '../../services/projects.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,8 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   loginRegisterForms: FormGroup;
+  page: number = 0;
+  size: number = 0;
 
   private setToken = inject(SetExpToken);
 
@@ -28,7 +31,9 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private projects: ProjectsService,
+  
   ) {
     this.loginRegisterForms = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,6 +45,7 @@ export class LoginComponent {
     if (this.loginService.usuarioLogeado()) {
       this.router.navigate(['/']);
     }
+    
   }
 
   // Método de login
@@ -51,13 +57,20 @@ export class LoginComponent {
       this.loginService.login(formLogin.email,formLogin.password).subscribe({
         next: async (response) => {
           try {
+            
             this.setToken.setExpToken(response.token);
+            // this.projects.getProjects(this.page,this.size)
 
             this.toastr.success('Login exitoso', 'Bienvenido!', {
               timeOut: 5000,
               positionClass: 'toast-top-right',
             });
-            this.router.navigate(['/']);
+            // Navegar a la página principal
+          this.router.navigate(['/']).then(() => {
+            // Esto fuerza la recarga de la página
+            window.location.reload();
+          });
+            // this.router.navigate(['/']);
           } catch (error) {
             this.toastr.error('Error al procesar el token', 'Error', {
               timeOut: 5000,

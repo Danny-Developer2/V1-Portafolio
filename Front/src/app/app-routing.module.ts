@@ -19,6 +19,7 @@ export const routes: Routes = [
   { path: '404', component: Error404Component },
   { path: 'test-error', component: TestErrorsComponent},
   { path: 'server-error', component: ServerErrorComponent }, 
+  
   {
     path: 'auth',
     loadChildren: () =>

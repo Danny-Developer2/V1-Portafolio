@@ -65,7 +65,7 @@
         Skills:
       </h2>
 
-      @if(project){ @if(project.skills!.$values!.length == 0){
+      @if(project){ @if(project.skills!.length == 0){
       <p
         class="text-center"
         style="
@@ -79,7 +79,7 @@
       }
 
       <!-- Mostrar Skills -->
-      @for(skill of project.skills!.$values!; track skill.id){
+      @for(skill of project.skills; track skill.id){
       <span
         class="badge bg-primary m-1"
         style="
@@ -187,7 +187,7 @@
       </h2>
 
       <!-- Verificación de Experience -->
-      @if(project?.experience?.$values?.length == 0){
+      @if(project?.experience?.length == 0){
       <p
         class="text-center"
         style="
@@ -201,9 +201,9 @@
       }
 
       <!-- Lógica condicional para mostrar el contenido -->
-      @if(project) { @if(project.experience && project.experience.$values &&
-      project.experience.$values.length > 0) { Bucle para recorrer las
-      experiencias @for(experience of project.experience.$values; track
+      @if(project) { @if(project.experience && project.experience &&
+      project.experience.length > 0) { Bucle para recorrer las
+      experiencias @for(experience of project.experience; track
       experience.id) {
       <div
         style="
@@ -304,6 +304,7 @@
         @if(getToken() == 'Admin'){
         <a
           [href]="['/edit/' + project?.id]"
+          
           class="btn btn-secondary btn-lg"
           style="
             font-family: 'Roboto', sans-serif;

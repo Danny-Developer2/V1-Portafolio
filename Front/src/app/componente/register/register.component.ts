@@ -46,7 +46,6 @@ export class RegisterComponent {
       try {
         this.registerUser.registerUser(this.formData).subscribe({
           next: (response) => {
-            console.log(response.token);
             this.setToken.setExpToken(response.token);
             this.toastr.success('Usuario Registrado con Exito', '', {
               timeOut: 5000,

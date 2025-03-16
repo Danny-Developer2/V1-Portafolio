@@ -31,28 +31,20 @@ export class DetailProjectComponent {
 
   
   
-  ngOnInit(id: number) {
-    if(id === null){
-      this.toastr.error('Error al obtener el proyecto', '',{
-        timeOut: 5000,
-        positionClass: 'toast-top-right',
-      });
-      return;  // Salir del método si no hay id
-    }
-
-    try{
-
-      this.route.paramMap.subscribe(params => {
-        const idParam = params.get('id'); // Obtener el id de la URL
-        if (idParam) {
-          this.id = +idParam; // Convertir a número
-          this.getProjectDetail(this.id);
-        }
-      });
-    }
-    catch(error){
-      console.error('Error al obtener los proyectos:', error);
-    }
+  ngOnInit(): void {
+    // Obtener el parámetro 'id' directamente desde ActivatedRoute
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');  // Obtener el parámetro de la URL
+      if (idParam) {
+        this.id = +idParam;  // Convertir el id a número
+        this.getProjectDetail(this.id);
+      } else {
+        this.toastr.error('Error al obtener el ID del proyecto', '', {
+          timeOut: 5000,
+          positionClass: 'toast-top-right',
+        });
+      }
+    });
   }
 
     // Llamar al servicio para obtener los proyectos
@@ -71,7 +63,6 @@ export class DetailProjectComponent {
           (data: Project) => {
             // Aquí asumimos que la API retorna un solo proyecto, no un arreglo
             this.project =data; // Si no existe el proyecto, se asigna null
-            // console.log(this.project.imgUrl);
           },
           (error) => {
             console.error('Error al obtener los detalles del proyecto:', error);

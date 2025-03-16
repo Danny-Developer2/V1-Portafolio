@@ -20,107 +20,87 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
 
-        
+
 
         public ProjectsController(DataContext context)
         {
             _context = context;
 
-            
+
         }
 
         // Obtener todos los proyectos
         [Authorize]
         [Authorize(Roles = "User,Admin")]
         [HttpGet]
-        // public async Task<ActionResult<IEnumerable<ProyectDTO>>> GetProjects(int id)
-        // {
-        //     var user = await _context.Users
-        //         .Include(u => u.Projects)
-        //         .Include(u => u.Skills)
-        //         .Include(u => u.Experiences)
-        //         .FirstOrDefaultAsync(u => u.Id == id);
-
-        //     if (user == null)
-        //     {
-        //         return NotFound(new { message = "Usuario no encontrado." });
-        //     }
-
-        //     // Mapea los proyectos a ProyectDTO
-        //     var proyectDTOs = user.Projects.Select(p => new ProyectDTO
-        //     {
-        //         Id = p.Id,
-        //         Name = p.Name,
-        //         Description = p.Description,
-        //         Technology = p.Technology,
-        //         Url = p.Url,
-        //         ImgUrl = p.ImgUrl
-        //     }).ToList();
-
-        //     return Ok(proyectDTOs); // Devuelve la lista de proyectos mapeados
-        // }
-
-        public async Task<ActionResult<IEnumerable<ProyectDTO>>> GetAllProjects()
+        public async Task<ActionResult<PagedResult<ProyectDTO>>> GetAllProjects(int pageNumber = 1, int pageSize = 10)
         {
             try
             {
-                // Obtener todos los proyectos con detalles de habilidades y experiencias
-                var projects = await _context.Projects
-                .Select(p => new ProyectDTO
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Technology = p.Technology,
-                    Url = p.Url,
-                    ImgUrl = p.ImgUrl,
-
-                    // Proyección de habilidades con los detalles completos
-                    Skills = p.ProyectSkills!.Any() ? p.ProyectSkills!.Select(ps => new SkillsDTO
+                var query = _context.Projects
+                    .Select(p => new ProyectDTO
                     {
-                        Id = ps.Skill!.Id,
-                        // SkillName = ps.Skill.Name,
-                        IconUrl = ps.Skill.IconUrl,
-                        Percentage = ps.Skill.Percentage,
-                        Name = ps.Skill.Name,
-                        Description = ps.Skill.Description
-                    }).ToList() : new List<SkillsDTO>(),
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Technology = p.Technology,
+                        Url = p.Url,
+                        ImgUrl = p.ImgUrl,
 
-                    // Proyección de experiencias con los detalles completos
-                    // Proyección de experiencias con los detalles completos (debe proyectarse correctamente)
-                    Experience = p.ProyectExperience!.Any() ? p.ProyectExperience!.Select(pe => new ExperienceDTO
-                    {
-                        Id = pe.Experience!.Id,
-                        CompanyName = pe.Experience.CompanyName,
-                        Position = pe.Experience.Position,
-                        StartDate = pe.Experience.StartDate,
-                        EndDate = pe.Experience.EndDate,
-                        Description = pe.Experience.Description
-                    }).ToList() : new List<ExperienceDTO>(),
+                        Skills = p.ProyectSkills!.Any() ? p.ProyectSkills!.Select(ps => new SkillsDTO
+                        {
+                            Id = ps.Skill!.Id,
+                            IconUrl = ps.Skill.IconUrl,
+                            Percentage = ps.Skill.Percentage,
+                            Name = ps.Skill.Name,
+                            Description = ps.Skill.Description
+                        }).ToList() : new List<SkillsDTO>(),
 
-                    // Proyección de usuarios asignados con los detalles completos
-                    Users = p.UserProyects!.Any() ? p.UserProyects!.Select(up => new UserDTO
-                    {
-                        Id = up.User!.Id,
-                        // Name= null,
-                        // Email = null
-                    }).ToList() : new List<UserDTO>()
-                })
-                    .ToListAsync(); // Obtener todos los proyectos
+                        Experience = p.ProyectExperience!.Any() ? p.ProyectExperience!.Select(pe => new ExperienceDTO
+                        {
+                            Id = pe.Experience!.Id,
+                            CompanyName = pe.Experience.CompanyName,
+                            Position = pe.Experience.Position,
+                            StartDate = pe.Experience.StartDate,
+                            EndDate = pe.Experience.EndDate,
+                            Description = pe.Experience.Description
+                        }).ToList() : new List<ExperienceDTO>(),
 
-                if (projects == null || !projects.Any())
+                        Users = p.UserProyects!.Any() ? p.UserProyects!.Select(up => new UserDTO
+                        {
+                            Id = up.User!.Id,
+                        }).ToList() : new List<UserDTO>()
+                    });
+
+                // Total de proyectos antes de paginar
+                var totalItems = await query.CountAsync();
+
+                // Aplicar paginado
+                var projects = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                if (!projects.Any())
                 {
                     return NotFound(new { message = "No hay proyectos disponibles." });
                 }
 
-                return Ok(projects); // Devuelve todos los proyectos con los detalles completos
+                var pagedResult = new PagedResult<ProyectDTO>
+                {
+                    Items = projects,
+                    TotalItems = totalItems,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return Ok(pagedResult);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al obtener los proyectos: {ex.Message}");
             }
         }
-
 
 
         // Obtener un proyecto por ID
@@ -193,7 +173,7 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,User")]
 
         [HttpPost]
-        public async Task<ActionResult<AppProyect>> CreateProject(ProyectDTO newProject )
+        public async Task<ActionResult<AppProyect>> CreateProject(ProyectDTO newProject)
         {
             if (newProject == null || string.IsNullOrWhiteSpace(newProject.Name) || string.IsNullOrWhiteSpace(newProject.Description))
             {
@@ -202,9 +182,9 @@ namespace API.Controllers
 
             try
             {
-               
-                
-                
+
+
+
                 // Obtener el email del usuario desde el token
                 var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (string.IsNullOrEmpty(userEmail))
@@ -233,67 +213,67 @@ namespace API.Controllers
                 _context.Projects.Add(project);
                 await _context.SaveChangesAsync(); // Guardamos para obtener el ID generado
 
-                // // Asignar habilidades al proyecto
-                // if (newProject.SkillIds != null && newProject.SkillIds.Any())
-                // {
-                //     var projectSkills = new List<ProyectSkill>(); // ✅ Usar ProjectSkill en lugar de UserSkill
+                // Asignar habilidades al proyecto
+                if (newProject.SkillIds != null && newProject.SkillIds.Any())
+                {
+                    var projectSkills = new List<ProyectSkill>(); // ✅ Usar ProjectSkill en lugar de UserSkill
 
-                //     foreach (var skillId in newProject.SkillIds)
-                //     {
-                //         var skill = await _context.Skills.FindAsync(skillId);
-                //         if (skill == null)
-                //         {
-                //             return BadRequest($"La habilidad con ID {skillId} no existe.");
-                //         }
+                    foreach (var skillId in newProject.SkillIds)
+                    {
+                        var skill = await _context.Skills.FindAsync(skillId);
+                        if (skill == null)
+                        {
+                            return BadRequest($"La habilidad con ID {skillId} no existe.");
+                        }
 
-                //         // Crear la relación entre proyecto y habilidad
-                //         projectSkills.Add(new ProyectSkill { ProjectId = project.Id, SkillId = skillId, Skill = skill }); // ✅ Relación correcta
-                //     }
+                        // Crear la relación entre proyecto y habilidad
+                        projectSkills.Add(new ProyectSkill { ProjectId = project.Id, SkillId = skillId, Skill = skill }); // ✅ Relación correcta
+                    }
 
-                //     _context.ProjectSkills.AddRange(projectSkills); // ✅ Guardar la relación correcta
-                //     await _context.SaveChangesAsync();
-                // }
-                // // Asignar experiencias al proyecto
-                // if (newProject.ExperienceIds != null && newProject.ExperienceIds.Any())
-                // {
-                //     var projectExperiences = new List<ProyectExperience>();
+                    _context.ProjectSkills.AddRange(projectSkills); // ✅ Guardar la relación correcta
+                    await _context.SaveChangesAsync();
+                }
+                // Asignar experiencias al proyecto
+                if (newProject.ExperienceIds != null && newProject.ExperienceIds.Any())
+                {
+                    var projectExperiences = new List<ProyectExperience>();
 
-                //     foreach (var experienceId in newProject.ExperienceIds)
-                //     {
-                //         var experience = await _context.Experiences.FindAsync(experienceId);
-                //         if (experience == null)
-                //         {
-                //             return BadRequest($"La experiencia con ID {experienceId} no existe.");
-                //         }
+                    foreach (var experienceId in newProject.ExperienceIds)
+                    {
+                        var experience = await _context.Experiences.FindAsync(experienceId);
+                        if (experience == null)
+                        {
+                            return BadRequest($"La experiencia con ID {experienceId} no existe.");
+                        }
 
-                //         // Crear la relación entre proyecto y experiencia
-                //         projectExperiences.Add(new ProyectExperience { ProjectId = project.Id, ExperienceId = experienceId });
-                //     }
+                        // Crear la relación entre proyecto y experiencia
+                        projectExperiences.Add(new ProyectExperience { ProjectId = project.Id, ExperienceId = experienceId });
+                    }
 
-                //     _context.ProyectExperience.AddRange(projectExperiences);
-                //     await _context.SaveChangesAsync();
-                // }
+                    _context.ProyectExperience.AddRange(projectExperiences);
+                    await _context.SaveChangesAsync();
+                }
 
                 // Asignar el proyecto a los usuarios (si es necesario, se podría agregar una lista de UserIds)
-                // if (newProject.UserIds != null && newProject.UserIds.Any())
-                // {
-                //     var projectUsers = new List<UserProyect>();
+                if (newProject.UserIds != null && newProject.UserIds.Any())
+                {
+                    var projectUsers = new List<UserProyect>();
 
-                //     foreach (var userId in newProject.UserIds)
-                //     {
-                //         var assignedUser = await _context.Users.FindAsync(userId);
-                //         if (assignedUser == null)
-                //         {
-                //             return BadRequest($"El usuario con ID {userId} no existe.");
-                //         }
+                    foreach (var userId in newProject.UserIds)
+                    {
+                        var assignedUser = await _context.Users.FindAsync(userId);
+                        if (assignedUser == null)
+                        {
+                            return BadRequest($"El usuario con ID {userId} no existe.");
+                        }
 
-                //         // Relacionar el proyecto con el usuario
-                //         projectUsers.Add(new UserProyect { ProjectId = project.Id, UserId = userId });
-                //     }
+                        // Relacionar el proyecto con el usuario
+                        projectUsers.Add(new UserProyect { ProjectId = project.Id, UserId = userId });
+                    }
 
-                //     _context.UserProyects.AddRange(projectUsers);
-                //     await _context.SaveChangesAsync();
-                // }
+                    _context.UserProyects.AddRange(projectUsers);
+                    await _context.SaveChangesAsync();
+                }
 
                 return CreatedAtAction(nameof(GetProjectById), new { id = project.Id }, project);
             }

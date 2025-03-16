@@ -23,7 +23,7 @@ export class CertificacionesComponent implements OnInit {
         this.chunkedCertificaciones = this.chunkArray(this.certificaciones, 4);
       });
     } catch (error) {
-      console.error('Error obteniendo certificaciones:', error);
+      console.error('Error al obtener las certificaciones:', error);
     }
   }
 

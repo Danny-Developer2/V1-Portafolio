@@ -68,5 +68,9 @@ namespace API.DTOs
 
         public List<UserDTO> Users { get; set; } = new List<UserDTO>();
 
+         public List<int> SkillIds { get; set; } = new List<int>();  // Lista de IDs de habilidades
+    public List<int> ExperienceIds { get; set; }  = new List<int>(); // Lista de IDs de experiencias
+    public List<int> UserIds { get; set; }  = new List<int>();  // Lista de IDs de usuarios
+
     }
 }

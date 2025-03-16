@@ -21,7 +21,7 @@ export class DashboardComponent {
         this.skills = skills;
       });
     } catch (error) {
-      console.error('Error obteniendo skills:', error);
+      error
     }
   }
 

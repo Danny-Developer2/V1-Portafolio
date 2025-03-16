@@ -74,7 +74,6 @@ export class RegisterProjectComponent {
       // Enviar la solicitud para registrar el proyecto
       this.registerService.registerProject(formData).subscribe({
         next: (response) => {
-          console.log('Proyecto registrado:', response);
           this.toastr.success('Proyecto registrado con éxito', '', {
             timeOut: 5000,
             positionClass: 'toast-top-right',
@@ -128,7 +127,6 @@ export class RegisterProjectComponent {
     this.getExperiencesService.getExperiences().subscribe(
       (data) => {
         this.experiences = data;
-        // console.log('Experiencias obtenidas:', this.experiences);
       },
       (error) => {
         console.error('Error al obtener las habilidades:', error);
