@@ -1,6 +1,10 @@
-<div class="container" style="min-height: 100-dvh; display: grid; grid-template-rows: auto 1fr auto;">
+<div class="container" style=" display: grid; grid-template-rows: auto 1fr auto;">
   <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="login-container p-4 border rounded shadow-sm" style="max-width: 400px; width: 100%; background-color: #f9f9f9;">
+      <div>
+        <img src="images/user-login.jpg" alt="login-image" class="image-login">
+  
+      </div>
       <h2 class="text-center mb-4">Iniciar sesión</h2>
 
       <form [formGroup]="loginRegisterForms" (ngSubmit)="onLogin()">
@@ -38,6 +42,17 @@
 
         <button type="submit" class="btn btn-primary w-100" [disabled]="loginRegisterForms.invalid">Iniciar sesión</button>
       </form>
-    </div>
+      <div class="forgot-and-register">
+
+        <div class="text-center mt-3">
+          ¿No tienes una cuenta? <a [routerLink]="['/auth/register']">Regístrate aquí</a>
+  
+          <div class="mt-3">
+            <a [routerLink]="['/forgot-password']">Recuperar contraseña</a>
+      
+    
+      </div>
+      </div>
+
   </div>
 </div>

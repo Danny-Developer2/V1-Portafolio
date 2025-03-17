@@ -1,0 +1,55 @@
+.login-container img {
+    // border: 1px solid black;
+    width: 7rem;
+    padding: 0px;
+    margin-top: -90px;
+    margin-left: 120px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 1;
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+    transform: scale(1.1);
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+}
+
+
+.login-container h2 {
+    font-size: 2rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+.login-container {
+    height: 450px;
+}
+
+
+.forgot-and-register {
+    margin-top: 30px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    color: #555;
+    font-size: 1.2rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+    cursor: pointer;
+}
+
+.form-group input {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.3rem;
+}
+
+.form-group label {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.3rem;
+}
