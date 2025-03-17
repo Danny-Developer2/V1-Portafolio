@@ -5085,11 +5085,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/juancazas/Desktop/Respaldos/Backend/API/API.csproj",
+      "projectUniqueName": "/Users/juancazas/Desktop/Portafolio-V1/V1-Portafolio/Backend/API/API.csproj",
       "projectName": "API",
-      "projectPath": "/Users/juancazas/Desktop/Respaldos/Backend/API/API.csproj",
+      "projectPath": "/Users/juancazas/Desktop/Portafolio-V1/V1-Portafolio/Backend/API/API.csproj",
       "packagesPath": "/Users/juancazas/.nuget/packages/",
-      "outputPath": "/Users/juancazas/Desktop/Respaldos/Backend/API/obj/",
+      "outputPath": "/Users/juancazas/Desktop/Portafolio-V1/V1-Portafolio/Backend/API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/juancazas/.nuget/NuGet/NuGet.Config"

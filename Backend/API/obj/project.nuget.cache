@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ato3M3X8glw=",
+  "dgSpecHash": "EjRv3LTiTxE=",
   "success": true,
-  "projectFilePath": "/Users/juancazas/Desktop/Respaldos/Backend/API/API.csproj",
+  "projectFilePath": "/Users/juancazas/Desktop/Portafolio-V1/V1-Portafolio/Backend/API/API.csproj",
   "expectedPackageFiles": [
     "/Users/juancazas/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/juancazas/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",

@@ -33,11 +33,11 @@
 
                   <!-- Botones de editar y ver -->
                   <div class="action-buttons">
-                    <button [routerLink]="['detail/', project.id]" type="button" class="btn btn-outline-secondary btn-sm">
+                    <button [routerLink]="['/detail/', project.id]" type="button" class="btn btn-outline-secondary btn-sm">
                       <i class="far fa-folder-open"></i>
                     </button>
                     @if (role === 'Admin') {
-                      <button [routerLink]="['edit/', project.id]" type="button" class="btn btn-outline-secondary btn-sm">
+                      <button [routerLink]="['/edit/', project.id]" type="button" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-edit"></i>
                       </button>
                     }

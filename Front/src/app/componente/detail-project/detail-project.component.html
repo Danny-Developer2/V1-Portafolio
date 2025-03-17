@@ -1,331 +1,83 @@
-<div
-  class="container d-flex justify-content-center align-items-center min-vh-100"
-  style="padding: 2%"
->
-  <div
-    class="card shadow-lg row-cols-md-4 col-md-9 col-lg-8"
-    style="
-      max-width: 100%;
-      height: auto;
-      border-radius: 15px;
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      padding: 3%;
-    "
-  >
-    <!-- Imagen del proyecto (Columna de la izquierda) -->
-    <div
-      class="col-12 col-md-5"
-      style="
-        padding: 4%;
-        margin-top: 5%;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-      "
-    >
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="padding: 2%;">
+  <div class="card custom-card shadow-lg row-cols-md-4 col-md-9 col-lg-8 d-flex flex-row" style="padding: 3%;">
+    <!-- Columna Izquierda -->
+    <div class="col-12 col-md-5 left-section">
       @if(project){
-      <img
-        [src]="project.imgUrl"
-        class="card-img-left"
-        alt="Project Image"
-        style="
-          width: 90%;
-          height: auto;
-          object-fit: cover;
-          border-top-left-radius: 15px;
-          border-bottom-left-radius: 15px;
-        "
-      />
+      <img [src]="project.imgUrl" class="img-fluid custom-img" alt="Project Image" />
       } @else {
-      <img
-        [src]="'images/placeholder.jpg'"
-        class="card-img-left"
-        alt="Project Image"
-        style="
-          width: 100%;
-          height: auto;
-          object-fit: cover;
-          border-top-left-radius: 15px;
-          border-bottom-left-radius: 15px;
-        "
-      />
+      <img [src]="'images/placeholder.jpg'" class="img-fluid custom-img" alt="Project Image" />
       }
 
-      <!-- Sección de Skills -->
-      <h2
-        class="text-center"
-        style="
-          font-family: 'Roboto', sans-serif;
-          font-size: 1.2rem;
-          color: #333;
-          margin-top: 10%;
-        "
-      >
-        Skills:
-      </h2>
-
-      @if(project){ @if(project.skills!.length == 0){
-      <p
-        class="text-center"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 0.9rem;
-          color: #777;
-        "
-      >
-        No existen skills asignadas en este proyecto
-      </p>
+      <h2 class="text-center section-title">Skills:</h2>
+      @if(project){
+        @if(project.skills!.length == 0){
+        <p class="text-center text-muted">No existen skills asignadas en este proyecto</p>
+        }
+        @for(skill of project.skills; track skill.id){
+        <span class="badge bg-primary m-1">{{ skill.name }}</span>
+        }
       }
-
-      <!-- Mostrar Skills -->
-      @for(skill of project.skills; track skill.id){
-      <span
-        class="badge bg-primary m-1"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 0.9rem;
-          border-radius: 12px;
-        "
-      >
-        {{ skill.name }}
-      </span>
-      } }
     </div>
 
-    <!-- Información del proyecto (Columna de la derecha) -->
-    <div
-      class="card-body text-start col-12 col-md-7"
-      style="
-        padding: 4%;
-        text-align: justify;
-        background-color: #e0d3d1;
-        border-radius: 10%;
-        margin-top: 4%;
-      "
-    >
-      <!-- Título del proyecto -->
-      <h2
-        class="card-title"
-        style="
-          font-family: 'Roboto', sans-serif;
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: #333;
-        "
-      >
-        Nombre del proyecto:
-      </h2>
+    <!-- Columna Derecha -->
+    <div class="card-body col-12 col-md-7 right-section">
+      <h2 class="section-title">Nombre del proyecto:</h2>
       @if(project){
       <p>{{ project.name }}</p>
       } @else {
       <p>Proyecto no encontrado</p>
       }
 
-      <!-- <p>{{ project.name }}</p> -->
-
-      <!-- Descripción del proyecto -->
-      <h2
-        class="card-text"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 1.5rem;
-          color: #333;
-        "
-      >
-        Descripción:
-      </h2>
-      <p
-        style="
-          max-height: 100px;
-          overflow-y: auto;
-          padding: 0px;
-          border: 1px solid #e0d3d1;
-          border-radius: 5px;
-          background-color: #e0d3d1;
-          overflow-x: hidden;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          height: auto;
-        "
-      >
+      <h2 class="section-title mt-3">Descripción:</h2>
+      <p class="description-box">
         @if(project){
         {{ project.description }}
-        } @else { Proyecto no encontrado }
-        <!-- {{ project.description }} -->
+        } @else {
+        Proyecto no encontrado
+        }
       </p>
 
-      <!-- Tecnología utilizada -->
-      <p
-        class="card-text"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 1.5rem;
-          color: #333;
-        "
-      >
-        Tecnología:
-      </p>
-
+      <p class="section-title mt-3">Tecnología:</p>
       @if(project){
       <p>{{ project.technology }}</p>
       } @else {
       <p>No hay tecnología especificada</p>
       }
-      <!-- <p>{{ project.technology }}</p> -->
 
-      <!-- Sección de Experience -->
-      <h2
-        class=""
-        style="
-          font-family: 'Roboto', sans-serif;
-          font-size: 1.5rem;
-          color: #333;
-        "
-      >
-        Experience:
-      </h2>
-
-      <!-- Verificación de Experience -->
+      <h2 class="section-title mt-3">Experience:</h2>
       @if(project?.experience?.length == 0){
-      <p
-        class="text-center"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 0.9rem;
-          color: #777;
-        "
-      >
-        No existen experiencias asignadas en este proyecto
-      </p>
+      <p class="text-center text-muted">No existen experiencias asignadas en este proyecto</p>
       }
 
-      <!-- Lógica condicional para mostrar el contenido -->
-      @if(project) { @if(project.experience && project.experience &&
-      project.experience.length > 0) { Bucle para recorrer las
-      experiencias @for(experience of project.experience; track
-      experience.id) {
-      <div
-        style="
-          text-align: left;
-          font-family: 'Open Sans', sans-serif;
-          font-size: 0.9rem;
-          color: #555;
-        "
-      >
-        <p>Empresa: {{ experience.companyName }}</p>
-        <p>Puesto: {{ experience.position }}</p>
-        <p>
-          Fecha: {{ experience.startDate | date : "dd/MM/yyyy" }} -
-          {{ experience.endDate | date : "dd/MM/yyyy" }}
-        </p>
-        <p>Experiencia: {{ experience.description }}</p>
-      </div>
-      } } @else {
-      <p
-        class="text-center"
-        style="
-          font-family: 'Open Sans', sans-serif;
-          font-size: 0.9rem;
-          color: #777;
-        "
-      >
-        No existen experiencias asignadas en este proyecto
-      </p>
-      } }
+      @if(project){
+        @if(project.experience && project.experience.length > 0){
+          @for(experience of project.experience; track experience.id){
+          <div class="mb-3 experience-box">
+            <p><strong>Empresa:</strong> {{ experience.companyName }}</p>
+            <p><strong>Puesto:</strong> {{ experience.position }}</p>
+            <p><strong>Fecha:</strong> {{ experience.startDate | date : 'dd/MM/yyyy' }} - {{ experience.endDate | date : 'dd/MM/yyyy' }}</p>
+            <p><strong>Experiencia:</strong> {{ experience.description }}</p>
+          </div>
+          }
+        } @else {
+          <p class="text-center text-muted">No existen experiencias asignadas en este proyecto</p>
+        }
+      }
 
-      <!-- Mostrar Experience -->
-
-      <div
-        class="d-flex justify-content-end align-items-end position-absolute"
-        style="bottom: 91%; right: 25px; gap: 10px"
-      >
-        <a
-          [href]="['/']"
-          class="btn btn-danger btn-lg"
-          style="
-            font-family: 'Roboto', sans-serif;
-            font-size: 1.2rem;
-            padding: 5px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-            background-color: rgba(
-              222,
-              46,
-              184,
-              0.8
-            ); /* Rojo con 80% de opacidad */
-            border: 2px solid rgba(192, 57, 43, 0.8); /* Rojo más oscuro con 80% de opacidad */
-            color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-transform: uppercase;
-            font-weight: bold;
-            text-decoration: none;
-          "
-        >
-          <i class="fas fa-arrow-left"></i>
-          <span class="text-white"> Regresar</span>
+      <!-- Botón Regresar -->
+      <div class="position-absolute top-btn">
+        <a [href]="'/'" class="btn btn-danger custom-btn">
+          <i class="fas fa-arrow-left"></i> <span class="text-white">Regresar</span>
         </a>
       </div>
 
-      <!-- Botones (Alineados en la parte inferior derecha) -->
-      <div
-        class="d-flex justify-content-end align-items-end position-absolute"
-        style="bottom: 7%; right: 70px; gap: 10px"
-      >
-        <!-- Botón de Eliminar con transparencia -->
-        <a
-          (click)="confirmDelete(project!.id)"
-          class="btn btn-danger btn-lg"
-          style="
-            font-family: 'Roboto', sans-serif;
-            font-size: 1rem;
-            padding: 1px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-            background-color: rgba(
-              231,
-              76,
-              60,
-              0.8
-            ); /* Rojo con 80% de opacidad */
-            border: 2px solid rgba(192, 57, 43, 0.8); /* Rojo más oscuro con 80% de opacidad */
-            color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-transform: uppercase;
-            font-weight: bold;
-            text-decoration: none;
-          "
-        >
+      <!-- Botones Eliminar y Editar -->
+      <div class="bottom-btns">
+        <a (click)="confirmDelete(project!.id)" class="btn btn-danger custom-btn">
           <span class="text-white">Eliminar</span>
         </a>
-
-        <!-- Botón de Editar con transparencia -->
         @if(getToken() == 'Admin'){
-        <a
-          [href]="['/edit/' + project?.id]"
-          
-          class="btn btn-secondary btn-lg"
-          style="
-            font-family: 'Roboto', sans-serif;
-            font-size: 1rem;
-            padding: 1px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-            background-color: rgba(
-              52,
-              152,
-              219,
-              0.8
-            ); /* Azul con 80% de opacidad */
-            border: 2px solid rgba(41, 128, 185, 0.8); /* Azul más oscuro con 80% de opacidad */
-            color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-transform: uppercase;
-            font-weight: bold;
-            text-decoration: none;
-          "
-        >
+        <a [href]="'/edit/' + project?.id" class="btn btn-secondary custom-btn">
           <span class="text-white">Editar</span>
         </a>
         }
