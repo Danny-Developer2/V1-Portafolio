@@ -1,0 +1,1 @@
+import{Na as n,m as i,p as o,ya as a}from"./chunk-QP2BZZD3.js";var c=class t{constructor(r,e){this.authService=r;this.router=e}canActivate(r,e){return this.authService.usuarioLogeado()?!0:(this.router.navigate(["auth/login"]),!1)}static \u0275fac=function(e){return new(e||t)(o(n),o(a))};static \u0275prov=i({token:t,factory:t.\u0275fac,providedIn:"root"})};export{c as a};
