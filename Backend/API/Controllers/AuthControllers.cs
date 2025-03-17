@@ -209,8 +209,9 @@ namespace API.Controllers
             {
                 HttpOnly = true,  // No accesible desde JavaScript
                 Secure = true,    // Solo en HTTPS
-                SameSite = SameSiteMode.Strict, // Evita ataques CSRF
-                Expires = DateTime.UtcNow.AddDays(7) // Expira en 7 días
+                SameSite = SameSiteMode.None, // Evita ataques CSRF
+                Expires = DateTime.UtcNow.AddDays(7), // Expira en 7 días
+                
             };
 
             Response.Cookies.Append("auth_token", token, cookieOptions);

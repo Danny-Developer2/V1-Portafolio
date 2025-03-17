@@ -68,7 +68,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         policy =>
         {
-            policy.WithOrigins("https://192.168.100.12:4200", "https://localhost:4200","https://localhost:4200","wss://192.168.100.12:4200/","http://localhost:4200","http://localhost:8080") // Cambia según tu frontend
+            policy.WithOrigins("https://192.168.100.12:4200", "https://localhost:4200","https://localhost:4200","wss://192.168.100.12:4200/","http://localhost:4200","http://localhost:8080","https://v1-portafolio.vercel.app") // Cambia según tu frontend
                   .AllowAnyMethod()
                   .AllowAnyHeader()
                   .AllowCredentials(); // Si usas autenticación con cookies o tokens
